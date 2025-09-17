@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppHeader></AppHeader>
-    saf
+    <router-view />
   </div>
 </template>
 

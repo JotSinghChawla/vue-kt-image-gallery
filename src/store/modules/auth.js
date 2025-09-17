@@ -1,7 +1,9 @@
 import api from '../../api/api'
+import qs from 'qs'
+import { router } from '../../main'
 
 const state = {
-  token: null
+  token: window.localStorage.getItem('api_token')
 }
 
 const getters = {
@@ -13,9 +15,17 @@ const getters = {
 const actions = {
   logout: ({ commit }) => {
     commit('setToken', null);                       // do not call mutations.setToken, 
+    window.localStorage.removeItem('api_token')
   },
   login: () => {
     api.login();
+  },
+  finaliseLogin({ commit }, hash) {
+    const query = qs.parse(hash);
+
+    commit('setToken',  query.access_token)
+    window.localStorage.setItem('api_token', query.access_token)
+    router.push('/')
   }
 }
 
